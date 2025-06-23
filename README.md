@@ -11,6 +11,6 @@ This is what the program does:
 
 1. Download and open FIJI following instructions here: https://imagej.net/downloads
 2. Make sure your images are in .tiff format as stacks and different channels (if your images are in a proprietry software from the microscope, open them in FIJI and follow instructions from BioFormats which should pop-up as soon as it recognsies your current format).
-3. Download FIJI macro named "FluorMask3D" and drage it into FIJI
+3. Download FIJI macro named "FluorMask3D.ijm" and drage it into FIJI
 4. Click Run and follow instructions in the log windows
 5. Contact me if you have any questions.
