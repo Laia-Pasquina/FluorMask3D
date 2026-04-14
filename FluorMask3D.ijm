@@ -45,9 +45,7 @@ Mean_last = getResult("Mean", 0); //gets the mean value from the first row
 run("Clear Results");
 
 //Calculate the average background value to be able to mathematically substract the background noise
-//Average_background = (Mean_1+Mean_last)/2;
 Average_background = Mean_last;
-//saveAs("Results", "C:/Users/bi1lp/Desktop/testing_workflow/Results_first_and_last_slice.csv");
 selectImage("Original_w_background");
 run("Subtract...", "value="+Average_background+" stack");
 //get the 2 mean values and do an average
@@ -239,7 +237,9 @@ macro "Fit Double Logistic" {
     //define variables and get values from results
     //Previously did Sum_of_Mean but this does not work on ROIs that are not similar for different treatments
 	  //But if you want to test it just uncomment the following group in lines 242 and 255
-	/*Sum_of_Mean = 0;
+	
+
+/*Sum_of_Mean = 0;
 	Mean = newArray(number_of_rois);
 	selectWindow("Results");
 	
@@ -252,9 +252,9 @@ macro "Fit Double Logistic" {
     	
 	Sum_of_Mean = Sum_of_Mean + Mean[i];
 		
-    }*/
+}*/
     
-    //We now do RawIntDen (Raw intensity density) becasue this represents better the fluorescence values of all pixels and it works better 
+    //We now do RawIntDen (Raw integrated density) becasue this represents better the fluorescence values of all pixels and it works better 
     	//to calculate a fluorescence ratio between two channels.
     Sum_of_RawInt = 0;
 	RawInt = newArray(number_of_rois);
