@@ -7,6 +7,7 @@ run("Close All");
  *  in a specific region, all with 3D data. Example of data was done in Eukaryotic cells spheroids in 3D
  *  
  *  Created: 23rd of June 2025 by Dr Laia Pasquina-Lemonche, University of Sheffield (cc)
+ *  Last update: 14th of April 2026. Github version V01 release.
  */
 
 dir1 = getDirectory("Select the folder containing images");
@@ -236,7 +237,9 @@ macro "Fit Double Logistic" {
     number_of_rois = roiManager("count");
     
     //define variables and get values from results
-	Sum_of_Mean = 0;
+    //Previously did Sum_of_Mean but this does not work on ROIs that are not similar for different treatments
+	  //But if you want to test it just uncomment the following group in lines 242 and 255
+	/*Sum_of_Mean = 0;
 	Mean = newArray(number_of_rois);
 	selectWindow("Results");
 	
@@ -249,17 +252,32 @@ macro "Fit Double Logistic" {
     	
 	Sum_of_Mean = Sum_of_Mean + Mean[i];
 		
+    }*/
+    
+    //We now do RawIntDen (Raw intensity density) becasue this represents better the fluorescence values of all pixels and it works better 
+    	//to calculate a fluorescence ratio between two channels.
+    Sum_of_RawInt = 0;
+	RawInt = newArray(number_of_rois);
+	selectWindow("Results");
+	
+	for (k = 0; k < number_of_rois; k++) {
+				RawInt [k] = getResult("RawIntDen", k);
+	}
+
+    //Calculating the sum of all the RawIntDen values / Which is what we need for the analysis
+    for (i = 0; i < number_of_rois; i++) {
+    	
+	Sum_of_RawInt = Sum_of_RawInt + RawInt[i];
+		
     }
     
     //Saving the results from the cropped region
     saveAs("Results", dir2+"Filtered_Results.csv");
-	//saveAs("Results", "C:/Users/bi1lp/Desktop/testing_workflow/Results_from_croppedOriginal.csv");
-	print("Sum_of_mean intensity from Cancer region from"+ImageType+" image = "+Sum_of_Mean);
+	print("Sum of intensity from Cancer region from"+ImageType+" image = "+Sum_of_RawInt);
 	
 	selectImage("Original_cropped");
 	run("From ROI Manager"); //do overlay
 	saveAs("Tiff", dir2+"Original_Overlay_with_analysed_data.tif");
-	//saveAs("Tiff", "C:/Users/bi1lp/Desktop/testing_workflow/Original_Overlay_with_analysed_data.tif");
 	
 	//Close Everything
 	run("Clear Results");
